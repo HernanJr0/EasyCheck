@@ -1,5 +1,5 @@
 import { Delete } from "@mui/icons-material";
-import { Divider, Paper, Checkbox, FormControl, FormControlLabel, TextField, Button, Grid } from "@mui/material";
+import { Divider, Paper, Checkbox, FormControlLabel, TextField, Button, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 
 const AddTask = ({ updateTasks }: any) => {
@@ -23,6 +23,7 @@ const AddTask = ({ updateTasks }: any) => {
                     size="small"
                     fullWidth
                     value={task}
+                    label="Digite a sua tarefa"
                     onChange={handleTaskChange}
                 />
             </Grid>
@@ -45,21 +46,19 @@ const Tasks = ({ updateTasks }: any) => {
         return (
             <div className="mt-4">
                 <Divider light />
-                <FormControl className="w-[550px]">
-                    {armazenamento.map(([taskKey, taskValue], index) => (
-                        <Grid container key={index} className="items-center justify-between">
-                            <Grid item>
-                                <FormControlLabel
-                                    control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }} />}
-                                    label={JSON.parse(taskValue)}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <Button color="error" size="small" onClick={() => handleRemoveTask(taskKey)}><Delete /></Button>
-                            </Grid>
+                {armazenamento.map(([taskKey, taskValue], index) => (
+                    <Grid container key={index} className="items-center justify-between">
+                        <Grid item>
+                            <FormControlLabel
+                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 32 } }} />}
+                                label={JSON.parse(taskValue)}
+                            />
                         </Grid>
-                    ))}
-                </FormControl>
+                        <Grid item>
+                            <Button color="error" size="small" onClick={() => handleRemoveTask(taskKey)}><Delete /></Button>
+                        </Grid>
+                    </Grid>
+                ))}
             </div>
         );
     }
@@ -89,7 +88,7 @@ export default function Home() {
     return (
         <>
             <div className="flex justify-center items-center h-[100vh]">
-                <Paper className="w-[600px] p-4 text-center">
+                <Paper className="w-[600px] p-4 text-center m-4">
                     <AddTask updateTasks={updateTasks} />
                     <Tasks updateTasks={updateTasks} />
                     <ActionButtons updateTasks={updateTasks} />
