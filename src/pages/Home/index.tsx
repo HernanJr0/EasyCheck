@@ -1,27 +1,22 @@
 import { Delete } from "@mui/icons-material";
 import {
-  Alert,
   Button,
   Checkbox,
   Divider,
   FormControlLabel,
   Grid,
   Paper,
-  Snackbar,
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import Toast from "../../components/Toast";
 
 const AddTask = ({ updateTasks }: any) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [toast, setToast] = useState(false);
   const [task, setTask] = useState("");
 
   const handleTaskChange = (event: any) => {
     setTask(event.target.value);
-  };
-
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
   };
 
   const handleAddTaskClick = () => {
@@ -31,7 +26,7 @@ const AddTask = ({ updateTasks }: any) => {
       updateTasks();
       setTask("");
     } else {
-      setSnackbarOpen(true);
+      setToast(true);
     }
   };
 
@@ -49,19 +44,7 @@ const AddTask = ({ updateTasks }: any) => {
       <Grid item xs={2.5}>
         <Button onClick={handleAddTaskClick}>Adicionar</Button>
       </Grid>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-      >
-        <Alert
-          onClose={handleSnackbarClose}
-          severity="info"
-          sx={{ width: "100%" }}
-        >
-          Insira uma tarefa
-        </Alert>
-      </Snackbar>
+      <Toast severity={"info"} children={"Insira uma tarefa"} toast={toast} setToast={setToast} />
     </Grid>
   );
 };
@@ -131,7 +114,7 @@ export default function Home() {
     setTasksUpdated(!tasksUpdated);
   };
 
-  useEffect(() => {}, [tasksUpdated]);
+  useEffect(() => { }, [tasksUpdated]);
 
   return (
     <>
