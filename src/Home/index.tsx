@@ -3,18 +3,24 @@ import { Divider, Paper, Checkbox, FormControlLabel, TextField, Button, Grid } f
 import { useState, useEffect } from "react";
 
 const AddTask = ({ updateTasks }: any) => {
-    const [task, setTask] = useState('');
+    const [task, setTask] = useState('')
 
     const handleTaskChange = (event: any) => {
-        setTask(event.target.value);
-    };
+        setTask(event.target.value)
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleAddTaskClick()
+        }
+    }
 
     const handleAddTaskClick = () => {
-        const newTask = `tsk${Math.random()}`;
-        localStorage.setItem(newTask, JSON.stringify(task));
-        updateTasks();
-        setTask('');
-    };
+        const newTask = `tsk${Math.random()}`
+        localStorage.setItem(newTask, JSON.stringify(task))
+        updateTasks()
+        setTask('')
+    }
 
     return (
         <Grid container className="items-center">
@@ -24,23 +30,26 @@ const AddTask = ({ updateTasks }: any) => {
                     fullWidth
                     value={task}
                     label="Digite a sua tarefa"
+                    onKeyDown={handleKeyDown}
                     onChange={handleTaskChange}
                 />
             </Grid>
             <Grid item xs={2.5}>
-                <Button onClick={handleAddTaskClick}>Adicionar</Button>
+                <Button
+                    onClick={handleAddTaskClick}
+                >Adicionar</Button>
             </Grid>
         </Grid>
-    );
-};
+    )
+}
 
 const Tasks = ({ updateTasks }: any) => {
-    const armazenamento = Object.entries(localStorage);
+    const armazenamento = Object.entries(localStorage)
 
     const handleRemoveTask = (taskKey: string) => {
-        localStorage.removeItem(taskKey);
-        updateTasks();
-    };
+        localStorage.removeItem(taskKey)
+        updateTasks()
+    }
 
     if (localStorage.length != 0) {
         return (
@@ -60,7 +69,7 @@ const Tasks = ({ updateTasks }: any) => {
                     </Grid>
                 ))}
             </div>
-        );
+        )
     }
 };
 
@@ -70,20 +79,21 @@ const ActionButtons = ({ updateTasks }: any) => {
             <Grid className="flex justify-end">
                 <Button color="error" size="small" onClick={() => { localStorage.clear(); updateTasks(); }}>Apagar todos</Button>
             </Grid>
-        );
+        )
     }
-    return null;
+    return null
 }
 
 export default function Home() {
-    const [tasksUpdated, setTasksUpdated] = useState(false);
+    const [tasksUpdated, setTasksUpdated] = useState(false)
 
     const updateTasks = () => {
-        setTasksUpdated(!tasksUpdated);
+        setTasksUpdated(!tasksUpdated)
     };
 
     useEffect(() => {
-    }, [tasksUpdated]);
+        console.log(localStorage)
+    }, [tasksUpdated])
 
     return (
         <>
