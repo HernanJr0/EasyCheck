@@ -20,10 +20,10 @@ const AddTask = ({ updateTasks }: any) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleAddTaskClick()
+    if (e.key === "Enter") {
+      handleAddTaskClick();
     }
-  }
+  };
 
   const handleAddTaskClick = () => {
     if (task != "") {
@@ -51,13 +51,25 @@ const AddTask = ({ updateTasks }: any) => {
       <Grid item xs={2.5}>
         <Button onClick={handleAddTaskClick}>Adicionar</Button>
       </Grid>
-      <Toast severity={"error"} children={"Insira uma tarefa"} toast={toast} setToast={setToast} />
+      <Toast
+        severity={"error"}
+        children={"Insira uma tarefa"}
+        toast={toast}
+        setToast={setToast}
+      />
     </Grid>
   );
 };
 
 const Tasks = ({ updateTasks }: any) => {
   const armazenamento = Object.entries(localStorage);
+  /* TODO: Verificar a possibilidade de usar Object.keys em algum lugar aqui
+  const armazenamento2 = Object.values(localStorage);
+  const armazenamento3 = localStorage
+
+  console.log(armazenamento)
+  console.log(armazenamento2)
+  console.log(armazenamento3) */
 
   const handleRemoveTask = (taskKey: string) => {
     localStorage.removeItem(taskKey);
@@ -121,7 +133,7 @@ export default function Home() {
     setTasksUpdated(!tasksUpdated);
   };
 
-  useEffect(() => { }, [tasksUpdated]);
+  useEffect(() => {}, [tasksUpdated]);
 
   return (
     <>
