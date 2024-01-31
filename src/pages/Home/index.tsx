@@ -19,6 +19,12 @@ const AddTask = ({ updateTasks }: any) => {
     setTask(event.target.value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleAddTaskClick()
+    }
+  }
+
   const handleAddTaskClick = () => {
     if (task != "") {
       const newTask = `tsk${Math.random()}`;
@@ -38,13 +44,14 @@ const AddTask = ({ updateTasks }: any) => {
           fullWidth
           value={task}
           label="Digite a sua tarefa"
+          onKeyDown={handleKeyDown}
           onChange={handleTaskChange}
         />
       </Grid>
       <Grid item xs={2.5}>
         <Button onClick={handleAddTaskClick}>Adicionar</Button>
       </Grid>
-      <Toast severity={"info"} children={"Insira uma tarefa"} toast={toast} setToast={setToast} />
+      <Toast severity={"error"} children={"Insira uma tarefa"} toast={toast} setToast={setToast} />
     </Grid>
   );
 };
