@@ -131,7 +131,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex justify-center items-center h-[100vh]">
+      <div className="flex justify-center items-center h-screen">
         <Paper className="w-[600px] p-4 text-center m-4">
           <AddTask updateTasks={updateTasks} />
           <Tasks updateTasks={updateTasks} />
