@@ -63,13 +63,7 @@ const AddTask = ({ updateTasks }: any) => {
 
 const Tasks = ({ updateTasks }: any) => {
   const armazenamento = Object.entries(localStorage);
-  /* TODO: Verificar a possibilidade de usar Object.keys em algum lugar aqui
-  const armazenamento2 = Object.values(localStorage);
-  const armazenamento3 = localStorage
-
-  console.log(armazenamento)
-  console.log(armazenamento2)
-  console.log(armazenamento3) */
+  /* TODO: Verificar a possibilidade de usar Object.keys em algum lugar aqui */
 
   const handleRemoveTask = (taskKey: string) => {
     localStorage.removeItem(taskKey);
