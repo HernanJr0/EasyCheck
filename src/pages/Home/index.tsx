@@ -8,6 +8,7 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
+import { v4 as uuidv4 } from "uuid";
 import React, { useEffect, useState } from "react";
 import Toast from "../../components/Toast";
 
@@ -28,7 +29,7 @@ const AddTask = ({ updateTasks }: any) => {
   const handleAddTaskClick = () => {
     const tarefa = { nome: task, status: false };
     if (task != "") {
-      const newTask = `tsk${Math.random()}`;
+      const newTask = uuidv4();
       localStorage.setItem(newTask, JSON.stringify(tarefa));
       updateTasks();
       setTask("");
