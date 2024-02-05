@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 interface Enderecos {
   [key: string]: {
@@ -24,13 +24,18 @@ export default function Layout() {
     <>
       <Grid className="absolute justify-center items-center w-screen flex h-20">
         {Object.keys(enderecos).map((chave) => {
+          const local = useLocation();
+          let cor = "gray";
           const { nome, link } = enderecos[chave];
+          if (link == local.pathname) {
+            cor = "white";
+          }
           return (
             <Link
               key={chave}
               to={link}
-              color={"white"}
-              style={{ marginInline: "8px" }}
+              className="hover:underline"
+              style={{ marginInline: "8px", color: cor }}
             >
               {nome}
             </Link>

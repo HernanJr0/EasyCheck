@@ -8,7 +8,7 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Toast from "../../components/Toast";
 
 const AddTask = ({ updateTasks }: any) => {
@@ -26,9 +26,10 @@ const AddTask = ({ updateTasks }: any) => {
   };
 
   const handleAddTaskClick = () => {
+    const tarefa = { nome: task, status: false };
     if (task != "") {
       const newTask = `tsk${Math.random()}`;
-      localStorage.setItem(newTask, JSON.stringify(task));
+      localStorage.setItem(newTask, JSON.stringify(tarefa));
       updateTasks();
       setTask("");
     } else {
@@ -62,11 +63,19 @@ const AddTask = ({ updateTasks }: any) => {
 };
 
 const Tasks = ({ updateTasks }: any) => {
-  const armazenamento = Object.entries(localStorage);
-  /* TODO: Verificar a possibilidade de usar Object.keys em algum lugar aqui */
+  const armazenamento2 = { ...localStorage };
 
   const handleRemoveTask = (taskKey: string) => {
     localStorage.removeItem(taskKey);
+    updateTasks();
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const taskKey = event.target.name; // Extrair a chave da tarefa
+    const task = JSON.parse(localStorage.getItem(taskKey) || "{}");
+
+    task.status = event.target.checked; // Atualizar o status
+    localStorage.setItem(taskKey, JSON.stringify(task));
     updateTasks();
   };
 
@@ -74,27 +83,41 @@ const Tasks = ({ updateTasks }: any) => {
     return (
       <div className="mt-4">
         <Divider light />
-        {armazenamento.map(([taskKey, taskValue], index) => (
-          <Grid container key={index} className="items-center justify-between">
-            <Grid item>
-              <FormControlLabel
-                control={
-                  <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 32 } }} />
-                }
-                label={JSON.parse(taskValue)}
-              />
+        {Object.keys(armazenamento2).map((index) => {
+          const taskKey = index;
+          const { nome, status } = JSON.parse(armazenamento2[index]);
+
+          return (
+            <Grid
+              container
+              key={index}
+              className="items-center justify-between"
+            >
+              <Grid item>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={status}
+                      onChange={handleChange}
+                      name={taskKey} // Passar a chave como nome
+                      sx={{ "& .MuiSvgIcon-root": { fontSize: 32 } }}
+                    />
+                  }
+                  label={nome}
+                />
+              </Grid>
+              <Grid item>
+                <Button
+                  color="error"
+                  size="small"
+                  onClick={() => handleRemoveTask(taskKey)}
+                >
+                  <Delete />
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button
-                color="error"
-                size="small"
-                onClick={() => handleRemoveTask(taskKey)}
-              >
-                <Delete />
-              </Button>
-            </Grid>
-          </Grid>
-        ))}
+          );
+        })}
       </div>
     );
   }
