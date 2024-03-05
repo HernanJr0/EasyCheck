@@ -1,14 +1,15 @@
-import { Grid } from "@mui/material";
-import { Link, Outlet, useLocation } from "react-router-dom";
+// import { Grid } from "@mui/material";
+// import { Link, Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-interface Enderecos {
+/*interface Enderecos {
   [key: string]: {
     nome: string;
     link: string;
   };
 }
 
-const enderecos: Enderecos = {
+ const enderecos: Enderecos = {
   todo: {
     nome: "To-do",
     link: "/",
@@ -17,7 +18,7 @@ const enderecos: Enderecos = {
     nome: "Pomodoro",
     link: "/pomodoro",
   },
-};
+}; */
 
 export default function Layout() {
   return (
