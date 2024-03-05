@@ -22,7 +22,7 @@ const enderecos: Enderecos = {
 export default function Layout() {
   return (
     <>
-      <Grid className="absolute justify-center items-center w-screen flex h-20">
+      {/* <Grid className="absolute justify-center items-center w-screen flex h-20">
         {Object.keys(enderecos).map((chave) => {
           const local = useLocation();
           let cor = "gray";
@@ -41,7 +41,7 @@ export default function Layout() {
             </Link>
           );
         })}
-      </Grid>
+      </Grid> */}
       <Outlet />
     </>
   );
