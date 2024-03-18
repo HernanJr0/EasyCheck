@@ -11,6 +11,10 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import React, { useEffect, useState } from "react";
 import Toast from "../../components/Toast";
+import "./index.css";
+
+const vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty("--vh", `${vh}px`);
 
 const AddTask = ({ updateTasks }: any) => {
   const [toast, setToast] = useState(false);
@@ -29,7 +33,7 @@ const AddTask = ({ updateTasks }: any) => {
   const handleAddTaskClick = () => {
     const tarefa = { nome: task, status: false };
     if (task != "") {
-      const newTask = uuidv4();
+      const newTask = "easy_" + uuidv4();
       localStorage.setItem(newTask, JSON.stringify(tarefa));
       updateTasks();
       setTask("");
@@ -64,7 +68,12 @@ const AddTask = ({ updateTasks }: any) => {
 };
 
 const Tasks = ({ updateTasks }: any) => {
-  const armazenamento2 = { ...localStorage };
+  const armazenamento2 = Object.keys(localStorage)
+    .filter((key) => key.startsWith("easy_"))
+    .reduce((obj, key) => {
+      obj[key] = localStorage[key];
+      return obj;
+    }, {} as any);
 
   const handleRemoveTask = (taskKey: string) => {
     localStorage.removeItem(taskKey);
@@ -72,10 +81,10 @@ const Tasks = ({ updateTasks }: any) => {
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const taskKey = event.target.name; // Extrair a chave da tarefa
+    const taskKey = event.target.name;
     const task = JSON.parse(localStorage.getItem(taskKey) || "{}");
 
-    task.status = event.target.checked; // Atualizar o status
+    task.status = event.target.checked;
     localStorage.setItem(taskKey, JSON.stringify(task));
     updateTasks();
   };
@@ -125,6 +134,13 @@ const Tasks = ({ updateTasks }: any) => {
 };
 
 const ActionButtons = ({ updateTasks }: any) => {
+  const clearTasks = () => {
+    Object.keys(localStorage)
+      .filter((key) => key.startsWith("easy_"))
+      .forEach((key) => localStorage.removeItem(key));
+    updateTasks();
+  };
+
   if (localStorage.length !== 0) {
     return (
       <Grid className="flex justify-end">
@@ -132,7 +148,7 @@ const ActionButtons = ({ updateTasks }: any) => {
           color="error"
           size="small"
           onClick={() => {
-            localStorage.clear();
+            clearTasks();
             updateTasks();
           }}
         >
@@ -155,7 +171,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center" id="fullViewPort">
         <Paper className="w-[600px] p-4 text-center m-4">
           <AddTask updateTasks={updateTasks} />
           <Tasks updateTasks={updateTasks} />
